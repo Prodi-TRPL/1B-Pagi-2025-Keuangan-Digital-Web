@@ -19,6 +19,12 @@ $periode        = "sekali bayar";
 
 $bukti_nama = "";
 
+// VALIDASI BUKTI PEMBAYARAN WAJIB
+if (!isset($_FILES['bukti']) || $_FILES['bukti']['error'] != 0) {
+    echo "Silakan unggah bukti pembayaran!";
+    exit();
+}
+
 if (isset($_FILES['bukti']) && $_FILES['bukti']['error'] === 0) {
     $folder = "../../../uploads/";
 

@@ -177,7 +177,8 @@ $saldo_akhir = $total_semua_pemasukan - $total_semua_pengeluaran;
                             </form>
 
                             <!-- Tombol Export Bulanan -->
-                            <a href="laporan.php?mode=bulanan_per_tahun&tahun=<?= $row['tahun'] ?>" target="_blank" class="btn-export-btn">
+                            <a href="laporan.php?mode=bulanan_per_tahun&tahun=<?= $row['tahun'] ?>" 
+                            target="_blank" class="btn-export-btn">
                             Export
                             </a>
                         </td>

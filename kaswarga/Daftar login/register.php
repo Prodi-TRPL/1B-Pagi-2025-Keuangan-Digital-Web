@@ -15,7 +15,6 @@
             <form method="POST" action="" id="registerForm" class="register-form">
                 <input type="text"     id="fullName"        name="nik"             placeholder="Masukkan NIK" required>
                 <input type="text"     id="regEmail"        name="nama"            placeholder="Masukkan Nama Lengkap (Ketua RT)" required>
-                <input type="date"     id="tanggal_lahir">
                 <input type="password" id="password"        name="password"        placeholder="Masukkan Password" required>
                 <input type="password" id="passwordConfirm" name="passwordConfirm" placeholder="Konfirmasi Password" required>
                 <input type="text"     id="address"         name="alamat"          placeholder="Masukkan Alamat Perumahan" required>

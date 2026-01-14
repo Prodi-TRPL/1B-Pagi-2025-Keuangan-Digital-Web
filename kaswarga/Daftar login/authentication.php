@@ -43,7 +43,10 @@
 
             if ($user) { // jika user ada.
                 if ($user['nik'] == $nik) {
-                    array_push($errors, "Username already exists");
+                    echo "<script>
+                        alert('NIK sudah digunakan!');
+                        window.history.back();
+                    </script>";
                 }
 
                 if ($user && $user['nama'] == $nama) {

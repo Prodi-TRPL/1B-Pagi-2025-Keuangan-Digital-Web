@@ -13,54 +13,53 @@
     $errors = [];
 
     if (isset($_POST['register'])) {
-        $nik             = mysqli_real_escape_string($koneksi, $_POST['nik']);
-        $nama            = mysqli_real_escape_string($koneksi, $_POST['nama']);
-        $gender          = mysqli_real_escape_string($koneksi, $_POST['gender']);
-        $alamat          = mysqli_real_escape_string($koneksi, $_POST['alamat']);
-        $nomor           = mysqli_real_escape_string($koneksi, $_POST['nomor']);
-        $role            = mysqli_real_escape_string($koneksi, $_POST['role']);
-        $password        = mysqli_real_escape_string($koneksi, $_POST['password']);
-        $passwordConfirm = mysqli_real_escape_string($koneksi, $_POST['passwordConfirm']);
 
-        if (empty($nik))             {array_push($errors, "NIK harus di isi!"); }
-        if (empty($nama))            {array_push($errors, "Nama Lengkap harus di isi!"); }
-        if (empty($gender))          {array_push($errors, "Gender harus di isi!"); }
-        if (empty($alamat))          {array_push($errors, "Alamat harus di isi!"); }
-        if (empty($nomor))           {array_push($errors, "Nomor Telepon harus di isi!"); }
-        if (empty($password))        {array_push($errors, "Password dibutuhkan"); }
-        if (empty($passwordConfirm)) {array_push($errors, "Konfirmasi password dibutuhkan"); }
+    $nik      = mysqli_real_escape_string($koneksi, $_POST['nik']);
+    $nama     = mysqli_real_escape_string($koneksi, $_POST['nama']);
+    $gender   = mysqli_real_escape_string($koneksi, $_POST['gender']);
+    $alamat   = mysqli_real_escape_string($koneksi, $_POST['alamat']);
+    $nomor    = mysqli_real_escape_string($koneksi, $_POST['nomor']);
+    $role     = mysqli_real_escape_string($koneksi, $_POST['role']);
+    $password = $_POST['password'];
+    $confirm  = $_POST['passwordConfirm'];
 
-        if ($password != $passwordConfirm) 
-            {array_push($errors, "Kedua Password tidak sama!"); }
-
-
-        $nama_check_query = "SELECT * FROM `user_role` WHERE nik='$nik' OR nama='$nama'";
-        $result = mysqli_query($koneksi, $nama_check_query);
-        $user = mysqli_fetch_assoc($result);
-
-        if ($user) {
-            if ($user['nik'] == $nik) {
-                array_push($errors, "nik already exists");
-            }
-
-            if ($user && $user['nama'] == $nama) {
-                array_push($errors, "name already exists");
-            }
-        }
-
-        if (count($errors) == 0) {
-            $password = password_hash($password, PASSWORD_BCRYPT); //enkripsi password 
-
-            $query = "INSERT INTO user_role (nik, nama, password, gender, alamat, nomor, role) VALUES ('$nik', '$nama', '$password', '$gender', '$alamat', '$nomor', '$role')";
-            mysqli_query($koneksi, $query);
-            $_SESSION['nama'] = $nama;
-            $_SESSION['success'] = "Data added";
-            header('location: daftar warga.php');
-            exit();
-        } else {
-            echo "Error insert: " . mysqli_error($koneksi);
-        }
+    // CEK AKUN SUDAH ADA
+    $cek = mysqli_query($koneksi, "SELECT nik FROM user_role WHERE nik='$nik'");
+    if (mysqli_num_rows($cek) > 0) {
+        echo "<script>
+            alert('Akun sudah terdaftar');
+            window.history.back();
+        </script>";
+        exit();
     }
+
+    // VALIDASI PASSWORD
+    if ($password !== $confirm) {
+        echo "<script>
+            alert('Password tidak sama');
+            window.history.back();
+        </script>";
+        exit();
+    }
+
+    $password = password_hash($password, PASSWORD_BCRYPT);
+
+    $query = "INSERT INTO user_role 
+        (nik, nama, password, gender, alamat, nomor, role)
+        VALUES ('$nik', '$nama', '$password', '$gender', '$alamat', '$nomor', '$role')";
+
+    if (mysqli_query($koneksi, $query)) {
+        echo "<script>
+            alert('Akun berhasil ditambahkan');
+            window.location='daftar warga.php';
+        </script>";
+    } else {
+        echo "<script>
+            alert('Terjadi kesalahan sistem');
+        </script>";
+    }
+}
+
 
     // ==== EDIT DATA ====
     if (isset($_POST['edit']) && isset($_POST['edit_nik'])) {

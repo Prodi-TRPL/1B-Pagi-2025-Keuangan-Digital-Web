@@ -26,7 +26,7 @@ $fileBukti = $data['bukti'] ?? null;
 if ($aksi == "terima") {
     mysqli_query($koneksi, "UPDATE iuran_warga SET `status`='lunas' WHERE id='$id'");
 } elseif ($aksi == "tolak") {
-    mysqli_query($koneksi, "UPDATE iuran_warga SET `status`='ditolak' WHERE id='$id'");
+    mysqli_query($koneksi, "UPDATE iuran_warga SET `status`='belum lunas' WHERE id='$id'");
 } 
 
 // kembali ke kelola riwayat

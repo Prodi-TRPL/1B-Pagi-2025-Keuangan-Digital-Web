@@ -374,7 +374,7 @@ if (!isset($_SESSION['nama'])) {
                         echo "<td style='font-weight:700; color:green'>".htmlspecialchars($p['status'])."</td>";
                         echo "<td>";
                         if (!empty($p['bukti'])) {
-                            echo "<a href=../../../uploads/".htmlspecialchars($p['bukti'])."' target='_blank' class='btn-view'>lihat</a>";
+                            echo "<a href='../../../uploads/".htmlspecialchars($p['bukti'])."' target='_blank' class='btn-view'>lihat</a>";
                         } else {
                             echo "-";
                         }

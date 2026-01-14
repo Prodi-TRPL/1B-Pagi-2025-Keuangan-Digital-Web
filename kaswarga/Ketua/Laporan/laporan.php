@@ -30,6 +30,7 @@ $bulan_nama = [
 // ======================================================
 // 1) LAPORAN BULANAN PER BULAN (detail Pemasukan & Pengeluaran)
 // ======================================================
+
 if ($mode === 'bulanan' && $bulan) {
 
     // Ringkasan bulan terpilih
@@ -45,7 +46,10 @@ if ($mode === 'bulanan' && $bulan) {
 
     $saldo_akhir = ($total_pemasukan ?: 0) - ($total_pengeluaran ?: 0);
 
+    // Judul laporan
     $html .= "<h2 style='text-align:center;'>Laporan Keuangan Bulan " . strtoupper($bulan_nama[(int)$bulan]) . " $tahun</h2>";
+
+    // Ringkasan tabel
     $html .= "<table border='1' cellspacing='0' cellpadding='5' width='100%'>
                 <tr><th>Total Pemasukan</th><th>Total Pengeluaran</th><th>Saldo Akhir</th></tr>
                 <tr>
@@ -55,68 +59,69 @@ if ($mode === 'bulanan' && $bulan) {
                 </tr>
               </table><br>";
 
-    // Query detail (format: Tanggal | Kategori | Nominal | Nama | Alamat)
+    // Query detail (ambil uraian, bukan kategori/nama/alamat)
     $pemasukan = mysqli_query($koneksi,
-        "SELECT tanggal, kategori, jumlah, nama, alamat 
+        "SELECT tanggal, jumlah, uraian
          FROM catatan 
          WHERE kategori='Pemasukan' AND YEAR(tanggal)='$tahun' AND MONTH(tanggal)='$bulan'
          ORDER BY tanggal ASC"
     );
 
     $pengeluaran = mysqli_query($koneksi,
-        "SELECT tanggal, kategori, jumlah, nama, alamat 
+        "SELECT tanggal, jumlah, uraian
          FROM catatan 
          WHERE kategori='Pengeluaran' AND YEAR(tanggal)='$tahun' AND MONTH(tanggal)='$bulan'
          ORDER BY tanggal ASC"
     );
 
+    // ============================
     // Tabel detail PEMASUKAN
+    // ============================
     $html .= "<h3>PEMASUKAN</h3>
               <table border='1' cellspacing='0' cellpadding='5' width='100%'>
-              <tr><th>Tanggal</th><th>Kategori</th><th>Nominal (Rp)</th><th>Nama</th><th>Alamat</th></tr>";
+              <tr><th>Tanggal</th><th>Uraian</th><th>Nominal (Rp)</th></tr>";
+
     if ($pemasukan && mysqli_num_rows($pemasukan) > 0) {
         while ($row = mysqli_fetch_assoc($pemasukan)) {
             $html .= "<tr>
-                        <td>" . date("d/m/Y", strtotime($row['tanggal'])) . "</td>
-                        <td>" . htmlspecialchars($row['kategori']) . "</td>
+                        <td style='white-space:nowrap;'>" . date("d/m/Y H:i:s", strtotime($row['tanggal'])) . "</td>
+                        <td>" . htmlspecialchars($row['uraian'] ?? '-') . "</td>
                         <td>Rp " . number_format((float)$row['jumlah'],0,',','.') . "</td>
-                        <td>" . htmlspecialchars($row['nama'] ?? '-') . "</td>
-                        <td>" . htmlspecialchars($row['alamat'] ?? '-') . "</td>
                       </tr>";
         }
     } else {
-        $html .= "<tr><td colspan='5' style='text-align:center;'>Tidak ada data pemasukan</td></tr>";
+        $html .= "<tr><td colspan='3' style='text-align:center;'>Tidak ada data pemasukan</td></tr>";
     }
-    $html .= "<tr><td colspan='2'><strong>Total Pemasukan</strong></td>
-              <td colspan='3'><strong>Rp " . number_format($total_pemasukan,0,',','.') . "</strong></td></tr>
-              </table>";
 
+    $html .= "</table>";
+
+    // ============================
     // Tabel detail PENGELUARAN
+    // ============================
     $html .= "<h3>PENGELUARAN</h3>
               <table border='1' cellspacing='0' cellpadding='5' width='100%'>
-              <tr><th>Tanggal</th><th>Kategori</th><th>Nominal (Rp)</th><th>Nama</th><th>Alamat</th></tr>";
+              <tr><th>Tanggal</th><th>Uraian</th><th>Nominal (Rp)</th></tr>";
+
     if ($pengeluaran && mysqli_num_rows($pengeluaran) > 0) {
         while ($row = mysqli_fetch_assoc($pengeluaran)) {
             $html .= "<tr>
-                        <td>" . date("d/m/Y", strtotime($row['tanggal'])) . "</td>
-                        <td>" . htmlspecialchars($row['kategori']) . "</td>
+                        <td style='white-space:nowrap;'>" . date("d/m/Y H:i:s", strtotime($row['tanggal'])) . "</td>
+                        <td>" . htmlspecialchars($row['uraian'] ?? '-') . "</td>
                         <td>Rp " . number_format((float)$row['jumlah'],0,',','.') . "</td>
-                        <td>" . htmlspecialchars($row['nama'] ?? '-') . "</td>
-                        <td>" . htmlspecialchars($row['alamat'] ?? '-') . "</td>
                       </tr>";
         }
     } else {
-        $html .= "<tr><td colspan='5' style='text-align:center;'>Tidak ada data pengeluaran</td></tr>";
+        $html .= "<tr><td colspan='3' style='text-align:center;'>Tidak ada data pengeluaran</td></tr>";
     }
-    $html .= "<tr><td colspan='2'><strong>Total Pengeluaran</strong></td>
-              <td colspan='3'><strong>Rp " . number_format($total_pengeluaran,0,',','.') . "</strong></td></tr>
-              </table>";
+
+    $html .= "</table>";
 }
+
 
 // ======================================================
 // 2) LAPORAN BULANAN REKAP SETAHUN (ringkasan 12 bulan dalam tahun tertentu)
 // ======================================================
-elseif ($mode === 'bulanan_per_tahun' && !$bulan) {
+elseif ($mode === 'bulanan' && !$bulan) {
 
     $rekap = mysqli_query($koneksi,
         "SELECT MONTH(tanggal) AS bulan,
@@ -220,6 +225,66 @@ elseif ($mode === 'tahunan') {
         }
     } else {
         $html .= "<tr><td colspan='4' style='text-align:center;'>Tidak ada data</td></tr>";
+    }
+    $html .= "</table>";
+}
+
+// ======================================================
+// 4) LAPORAN BULANAN PER TAHUN (dipanggil dari tabel tahunan)
+// ======================================================
+elseif ($mode === 'bulanan_per_tahun' && $tahun) {
+
+    $rekap = mysqli_query($koneksi,
+        "SELECT MONTH(tanggal) AS bulan,
+                SUM(CASE WHEN kategori='Pemasukan' THEN jumlah ELSE 0 END) AS pemasukan,
+                SUM(CASE WHEN kategori='Pengeluaran' THEN jumlah ELSE 0 END) AS pengeluaran
+         FROM catatan
+         WHERE YEAR(tanggal) = '$tahun'
+         GROUP BY MONTH(tanggal)
+         ORDER BY MONTH(tanggal)"
+    );
+
+    $total_pemasukan_tahun = mysqli_fetch_assoc(mysqli_query($koneksi,
+        "SELECT COALESCE(SUM(jumlah),0) AS total 
+         FROM catatan 
+         WHERE kategori='Pemasukan' AND YEAR(tanggal)='$tahun'"
+    ))['total'] ?? 0;
+
+    $total_pengeluaran_tahun = mysqli_fetch_assoc(mysqli_query($koneksi,
+        "SELECT COALESCE(SUM(jumlah),0) AS total 
+         FROM catatan 
+         WHERE kategori='Pengeluaran' AND YEAR(tanggal)='$tahun'"
+    ))['total'] ?? 0;
+
+    $html .= "<h2 style='text-align:center;'>Rekap Bulanan Tahun $tahun</h2>";
+    $html .= "<table border='1' cellspacing='0' cellpadding='5' width='100%'>
+                <tr><th>Total Pemasukan Tahun</th><th>Total Pengeluaran Tahun</th><th>Saldo Akhir Tahun</th></tr>
+                <tr>
+                    <td>Rp ".number_format($total_pemasukan_tahun,0,',','.')."</td>
+                    <td>Rp ".number_format($total_pengeluaran_tahun,0,',','.')."</td>
+                    <td>Rp ".number_format($total_pemasukan_tahun - $total_pengeluaran_tahun,0,',','.')."</td>
+                </tr>
+              </table><br>";
+
+    $html .= "<h3>Rekap per Bulan</h3>
+              <table border='1' cellspacing='0' cellpadding='5' width='100%'>
+                <tr><th>Bulan</th><th>Pemasukan</th><th>Pengeluaran</th><th>Saldo</th></tr>";
+
+    if ($rekap && mysqli_num_rows($rekap) > 0) {
+        while ($row = mysqli_fetch_assoc($rekap)) {
+            $pemasukan = (float)($row['pemasukan'] ?? 0);
+            $pengeluaran = (float)($row['pengeluaran'] ?? 0);
+            $saldo = $pemasukan - $pengeluaran;
+
+            $html .= "<tr>
+                        <td>".$bulan_nama[(int)$row['bulan']]."</td>
+                        <td>Rp ".number_format($pemasukan,0,',','.')."</td>
+                        <td>Rp ".number_format($pengeluaran,0,',','.')."</td>
+                        <td>Rp ".number_format($saldo,0,',','.')."</td>
+                      </tr>";
+        }
+    } else {
+        $html .= "<tr><td colspan='4' style='text-align:center;'>Tidak ada data pada tahun ini</td></tr>";
     }
     $html .= "</table>";
 }

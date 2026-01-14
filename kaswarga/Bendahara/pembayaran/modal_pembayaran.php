@@ -131,7 +131,7 @@ include "../../../Database/koneksi.php";
     <div id="editModal" class="modal-edit">
         <div class="edit-content">
             <span class="close-edit">&times;</span>
-            <h3>Edit Iuran</h3>
+            <h3>Pengaturan Data Iuran</h3>
             <form id="editForm" method="POST">
                 <input type="hidden" id="editId" name="id"/>
                 <input type="hidden" name="jenis" id="jenisIuranType">
@@ -149,7 +149,6 @@ include "../../../Database/koneksi.php";
                 <div class="input-group">
                     <label>Periode *</label>
                     <select id="editPeriode" name="periode" required>
-                        <option value="mingguan">Mingguan</option>
                         <option value="bulanan">Bulanan</option>
                         <option value="tahunan">Tahunan</option>
                         <option value="sekali bayar">Sekali Bayar</option>

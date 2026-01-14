@@ -10,7 +10,8 @@ $data = mysqli_query($koneksi, "SELECT * FROM catatan WHERE YEAR(tanggal) = '$ta
 <html>
 <head>
     <title>History Tahun <?= $tahun ?></title>
-    <link rel="stylesheet" href="history.css">
+    <link rel="stylesheet" href="history_ok.css">
+    <link rel="shortcut icon" href="../../../foto/ICONB.png" type="image/x-icon">
 </head>
 <body>
 <div class="history-container">
@@ -31,7 +32,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM catatan WHERE YEAR(tanggal) = '$ta
         </thead>
         <tbody>
             <?php if (mysqli_num_rows($data) == 0): ?>
-                <tr><td colspan="6" class="empty">Tidak ada transaksi tahun ini</td></tr>
+                <tr><td colspan="7" class="empty">Tidak ada transaksi tahun ini</td></tr>
             <?php endif; ?>
             <?php while($row = mysqli_fetch_assoc($data)): ?>
                 <tr>

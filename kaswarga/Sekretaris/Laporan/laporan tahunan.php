@@ -34,7 +34,7 @@ $saldo_akhir = $total_semua_pemasukan - $total_semua_pengeluaran;
     <title>Laporan Tahunan</title>
     <link rel="stylesheet" href="laporan_tahunan.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-    <link rel="shortcut icon" href="ICONB.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../../../foto/ICONB.png" type="image/x-icon">
 </head>
 
 <body>

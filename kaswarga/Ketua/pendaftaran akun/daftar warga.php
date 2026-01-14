@@ -310,8 +310,8 @@
           </div>
 
           <div class="mb-4">
-    <label for="edit_role" class="form-label">Jabatan:</label>
-    <select class="form-control" id="edit_role" name="edit_role" required>
+    <label for="role" class="form-label">Jabatan:</label>
+    <select class="form-control" id="role" name="role" required>
         <option value="ketua" <?php echo (isset($editData['role']) && $editData['role'] == 'ketua') ? 'selected' : ''; ?>>Ketua</option>
         <option value="warga" <?php echo (isset($editData['role']) && $editData['role'] == 'warga') ? 'selected' : ''; ?>>Warga</option>
         <option value="sekretaris" <?php echo (isset($editData['role']) && $editData['role'] == 'sekretaris') ? 'selected' : ''; ?>>Sekretaris</option>

@@ -36,7 +36,7 @@ document.getElementById("transaksiForm").addEventListener("submit", function(e) 
     .then(response => response.text())
     .then(result => {
         if (result.trim() === "sukses") {
-            alert("✅ Transaksi berhasil ditambahkan!");
+            alert(" Transaksi berhasil ditambahkan!");
             this.reset();
         } else {
             alert(" Terjadi kesalahan: " + result);

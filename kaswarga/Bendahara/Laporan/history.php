@@ -5,16 +5,6 @@ $bulan = $_GET['bulan'];
 $tahun = $_GET['tahun'];
 
 $data = mysqli_query($koneksi, "SELECT * FROM catatan WHERE MONTH(tanggal) = '$bulan' AND YEAR(tanggal) = '$tahun' ORDER BY tanggal DESC;");
-
-$row = mysqli_fetch_assoc($data); // ambil satu baris saja
-
-if ($row) {
-    if (is_null($row['nama']) || is_null($row['alamat'])) {
-        echo "Data ini telah dihapus";
-    } else {
-        
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +37,9 @@ if ($row) {
 
         <tbody>
             <?php if (mysqli_num_rows($data) == 0): ?>
-                <tr><td colspan="5" class="empty">Tidak ada transaksi di bulan ini</td></tr>
+                <tr>
+                    <td colspan="7" class="empty">Tidak ada transaksi di bulan ini</td>
+                </tr>
             <?php endif; ?>
 
             <?php while($row = mysqli_fetch_assoc($data)): ?>

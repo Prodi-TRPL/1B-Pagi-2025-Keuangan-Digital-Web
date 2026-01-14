@@ -69,7 +69,7 @@ $rekap = mysqli_query($koneksi,
     <title>Laporan Bulanan</title>
     <link rel="stylesheet" href="../Laporan/laporan_bulanan_oke.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-    <link rel="shortcut icon" href="ICONB.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../../../foto/ICONB.png" type="image/x-icon">
 </head>
 
 <body>

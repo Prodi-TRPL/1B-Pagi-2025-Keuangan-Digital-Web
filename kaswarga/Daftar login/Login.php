@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Kas Warga</title>
+    <title>Login Kaswarga</title>
     <link rel="stylesheet" href="login_oke.css">
     <link rel="shortcut icon" href="ICONB.png" type="image/x-icon">
 </head>
@@ -14,7 +14,7 @@
 
 <div class="login-wrapper">
     <div class="login-container">
-        <h2>Login Kas Warga</h2>
+        <h2>Login Kaswarga</h2>
         <img src="ICON.png" alt="rumah" class="icon" >
 
         <form method="POST" action="" id="loginForm">

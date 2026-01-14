@@ -34,9 +34,9 @@
     <!-- BANNER -->
     <section class="banner" id="home">
         <div class="banner-text fade-up">
-            <h1>Selamat Datang di Kas Warga</h1><br>
+            <h1>Selamat Datang di Kaswarga</h1><br>
             <h4>"Our Cash, Our Community"</h4><br>
-            <p>Memudahkan dan Mengamankan istem keuangan suatu capital <br>dengan tingkat keamanan yang baik. <br> Mau
+            <p>Memudahkan dan Mengamankan sistem keuangan suatu capital <br>dengan tingkat keamanan yang baik. <br> Mau
                 transaksi mudah dan juga aman?<br> Ayo jadilah bagian dari kami!</p><br>
         </div>
         <div class="banner-btn fade-up">
@@ -107,18 +107,6 @@
         </div>
     </section>
 
-    </section>
-
-    <!-- KONTAK -->
-    <section class="kontak" id="kontak">
-        <h2 class="fade-up">Kontak Pesan</h2>
-
-        <form class="kontak-form fade-up" id="contactForm">
-            <input type="text" name="nama" placeholder="Nama Lengkap" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <textarea name="pesan" placeholder="Pesan Anda" required></textarea>
-            <button type="submit">Kirim Pesan</button>
-        </form>
     </section>
 
     <!-- FOOTER -->
